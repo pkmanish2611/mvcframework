@@ -1,0 +1,182 @@
+.body{
+     font-family: Roboto;
+     background-color: rgb(252, 250, 250);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin:0px 0px 0px 0px;
+    
+     
+}
+
+ 
+.navbar{
+   background: rgba(77, 244, 174, 100);
+   box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.10);
+   .container{
+       .navbar-brand{
+            font-weight: bold;
+            color:white; 
+       }
+       .navbar-toggler{
+           background: rgba(77, 244, 174, 100); 
+       }
+        .collapse{ 
+            .navbar-nav{  
+                list-style:none;  
+                .d-flex{
+                    height: 35px;
+                    .circle-icon{ 
+                        width: 35px;
+                        height: inherit; 
+                        border-bottom: 2px solid rgb(252, 252, 252);
+                        text-align: center; 
+                        vertical-align: middle;
+                        padding: 5px 2px 5px 5px;
+                        } 
+                        .form_se{  
+                            height: 33px; 
+                            border: 2px solid rgb(252, 252, 252);
+                            border-radius: 5px  5px 5px 0  ;
+                        }  
+                    }
+                .nav-item{
+                        a{ 
+                            color:rgb(255, 254, 254);  
+                             
+                        }
+                        a:hover{
+                        background:rgba(206, 213, 214, 0.281);
+                        height: 35px;
+                        border-radius: 5px;
+                        }
+                        .login_btn{
+                            padding-left: 15px;
+                            padding-right: 15px;
+                             height: 35px;  
+                            border: 2px solid #FFFDFD;
+                             box-sizing: border-box;
+                             border-radius: 5px; 
+                        } 
+                } 
+            }
+        }   
+    } 
+} 
+//welcome screen
+.welcome_container{
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  .child{ 
+      text-align: center; 
+  } 
+}
+
+//login/register
+.card0 {
+    margin-top: 30px;
+    margin-bottom: 34px;
+    padding-top: 40px;
+    box-shadow: 0px 4px 8px 0px #757575;
+    border-radius: 5px
+} 
+.card2 {
+    margin: 0px 40px
+} 
+.image {
+    width: 360px;
+    height: 280px
+} 
+.border-line {
+    border-right: 3px solid #b9b5b5;  
+} 
+.line {
+    height: 3px;
+    width: 40%;
+    background-color: #c9baba;
+    margin-top: 10px
+} 
+.or {
+    width: 20%;
+    font-weight: bold
+}
+.text-sm {
+    font-size: 14px !important
+} 
+::placeholder {
+    color: #BDBDBD;
+    opacity: 1;
+    font-weight: 300
+} 
+:-ms-input-placeholder {
+    color: #BDBDBD;
+    font-weight: 300
+} 
+::-ms-input-placeholder {
+    color: #BDBDBD;
+    font-weight: 300
+} 
+input,
+textarea {
+    padding: 10px 12px 10px 12px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    margin-bottom: 5px;
+ 
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px
+} 
+input:focus,
+textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #304FFE;
+    outline-width: 0
+} 
+button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0
+} 
+a {
+    color: inherit;
+    cursor: pointer
+} 
+.btn-blue {
+    background-color: #1A237E;
+    width: 150px;
+    color: #fff;
+    border-radius: 2px
+} 
+.btn-blue:hover {
+    background-color: #000;
+    cursor: pointer
+} 
+.bg-blue {
+    color: #fff;
+    background-color: #1A237E
+} 
+@media screen and (max-width: 991px) { 
+    .image {
+        width: 300px;
+        height: 220px
+    } 
+    .border-line {
+        border-right: none;
+    } 
+    .card2 {
+        border-top: 3px solid #a5a3a3 !important;
+        margin: 0px 15px
+    }
+}
+
+ 
+
