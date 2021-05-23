@@ -40,10 +40,9 @@ class User
 
         $row = $this->db->single();
 
-        $hashedPassword = $row->password;  
-        $verified = $row->verified;
+        $hashedPassword = $row->password;   
 
-        if (password_verify($password, $hashedPassword) && ($verified == 1)) {
+        if (password_verify($password, $hashedPassword)) {
             return $row;
         } else {
             return false;
@@ -104,5 +103,19 @@ class User
         } else {
             return false;
         } 
-    }   
+    }
+    public function verifiedStatus($email)
+    {
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+
+        //Bind value
+        $this->db->bind(':email', $email); 
+        $row = $this->db->single(); 
+        $verified = $row->verified; 
+        if ( $verified == 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }  
 }

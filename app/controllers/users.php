@@ -35,7 +35,7 @@ class Users extends Controller
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'link' =>   'http://localhost/mvcframework/users/login/?id=',
+                'link' =>   'http://localhost/mvcframework/users/verification/?id=',
                 'message' => '',
                 'errorMessage' => '',
                 'usernameError' => '',
@@ -106,64 +106,76 @@ class Users extends Controller
             'title' => 'Login page',
             'email' => '',
             'password' => '',
-            'verifySuccess' => '',
-            'verifyError' => '',
             'emailError' => '',
             'passwordError' => ''
         ];
+
+
+        //Check for post
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+
+            $data = [
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'emailError' => '',
+                'passwordError' => '',
+            ];
+
+            //Validate username
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter email.';
+            } else if ($this->userModel->verifiedStatus($data['email'])) {
+                $data['emailError'] = 'You are not verified';
+            }
+
+            //Validate password
+            if (empty($data['password'])) {
+                $data['passwordError'] = 'Please enter a password.';
+            }
+            //Check if all errors are empty
+            if (empty($data['emailError']) && empty($data['passwordError'])) {
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                if ($loggedInUser) {
+                    $this->createUserSession($loggedInUser);
+                } else {
+                    $data['passwordError'] = 'Password or username is incorrect. Please try again.';
+                }
+            }
+        } else {
+            $data = [
+                'email' => '',
+                'password' => '',
+                'emailError' => '',
+                'passwordError' => ''
+            ];
+        }
+
+        $this->view('users/login', $data);
+    }
+    public function verification()
+    {
+        $data = [
+            'verifySuccess' => '',
+            'verifyError' => ''
+        ];
         if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            print_r($id);
+            $id = $_GET['id']; 
             if ($this->userModel->verifyUser($id)) {
                 $data['verifySuccess'] = true;
             } else {
                 $data['verifyError'] = true;
             }
         } else {
-            //Check for post
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                //Sanitize post data
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-                $data = [
-                    'email' => trim($_POST['email']),
-                    'password' => trim($_POST['password']),
-                    'verifySuccess' => '',
-                    'verifyError' => '',
-                    'emailError' => '',
-                    'passwordError' => '',
-                ];
-                //Validate username
-                if (empty($data['email'])) {
-                    $data['emailError'] = 'Please enter email.';
-                }
-
-                //Validate password
-                if (empty($data['password'])) {
-                    $data['passwordError'] = 'Please enter a password.';
-                }
-                //Check if all errors are empty
-                if (empty($data['emailError']) && empty($data['passwordError'])) {
-                    $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-
-                    if ($loggedInUser) {
-                        $this->createUserSession($loggedInUser);
-                    } else {
-                        $data['passwordError'] = 'Password or username is incorrect. Please try again.';
-                    }
-                }
-            } else {
-                $data = [
-                    'email' => '',
-                    'password' => '',
-                    'verifySuccess' => '',
-                    'verifyError' => '',
-                    'emailError' => '',
-                    'passwordError' => ''
-                ];
-            }
+            $data = [
+                'verifySuccess' => '',
+                'verifyError' => ''
+            ];
         }
-        $this->view('users/login', $data);
+        $this->view('users/verification', $data);
     }
 
     public function createUserSession($user)

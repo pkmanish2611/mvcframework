@@ -5,20 +5,7 @@
 
 
  <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mb-2 mx-auto">
-     <?php if ($data['verifySuccess']) { ?>
-         <div class="alert alert-success text-center alert-dismissible fade show mx-5 px-5" role="alert">
-             <h6 class="text-success">hola ! Verification successful<i class="bi bi-emoji-smile-fill"></i></h6>
-             <p>Please Login here to continue</p>
-             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-         </div>
-     <?php }
-        if ($data['verifyError']) { ?>
-         <div class="alert alert-danger text-center alert-dismissible fade show mx-5 px-5" role="alert">
-             <h6 class="text-danger">hola ! verification unsuccessful<i class="bi bi-emoji-frown-fill"></i></h6>
-             <p>Something went wrong</p>
-             <a class="btn btn-danger-rounded" data-bs-dismiss="modal">Try again</a>
-         </div>
-     <?php } ?>
+      
      <?php
         if ($data["emailError"] or $data["passwordError"]) { ?>
          <div class="alert alert-danger alert-dismissible fade show mx-5 px-5" role="alert">
@@ -31,7 +18,7 @@
              <?php } ?>
          </div>
      <?php } ?>
-     <form action="<?php echo URLROOT ?>users/login" method="POST">
+     <form id="register-form" method="POST">
          <div class="card card0 border-0 ">
              <div class="row px-3 mb-6 justify-content-between">
                  <div class="line"></div> <small class="or text-center">Login</small>
