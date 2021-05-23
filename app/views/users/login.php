@@ -4,8 +4,8 @@
 
 
 
- <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mb-2 mx-auto">
-      
+ <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+
      <?php
         if ($data["emailError"] or $data["passwordError"]) { ?>
          <div class="alert alert-danger alert-dismissible fade show mx-5 px-5" role="alert">
@@ -18,15 +18,15 @@
              <?php } ?>
          </div>
      <?php } ?>
-     <form id="register-form" method="POST">
-         <div class="card card0 border-0 ">
+     <form action="<?php echo URLROOT ?>users/login" method="POST">
+         <div class="card card0 border-0">
              <div class="row px-3 mb-6 justify-content-between">
                  <div class="line"></div> <small class="or text-center">Login</small>
                  <div class="line"></div>
              </div>
              <div class="row d-flex">
                  <div class="col-lg-6">
-                     <div class="card1 pb-3">
+                     <div class="card1 pb-4">
                          <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src="<?php echo ASSETS ?>img/logo/library.png" class="image"> </div>
                      </div>
                  </div>
@@ -65,22 +65,24 @@
                  <h5 class="modal-title text-white" id="exampleModalLabel">Verify Your Email Address</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
-             <div class="modal-body">
-                 <div class="row px-3 text-center">
-                     <label class="mb-1">
-                         <h6 class="mb-4 text-sm">Please enter your email for password reset link</h6>
-                     </label>
-                 </div>
-                 <div class="row d-flex mb-4">
-                     <div class="col-lg-5 text-center align-item-center">
-                         <h6 class="mb-0 text-sm">Email Address<span class="note text-danger">*</span></h6>
+             <form action="<?php echo URLROOT ?>users/forgotPassword" method="POST">
+                 <div class="modal-body">
+                     <div class="row px-3 text-center">
+                         <label class="mb-1">
+                             <h6 class="mb-4 text-sm">Please enter your email for password reset link</h6>
+                         </label>
                      </div>
-                     <div class="col-lg-5">
-                         <input class="mb-4" type=" text" name="email" placeholder="Enter a valid email address">
-                         <a type="submit" class="mb-4 text-primary font-weight-bold">Click here to request link</a>
+                     <div class="row d-flex mb-4">
+                         <div class="col-lg-5 text-center align-item-center">
+                             <h6 class="mb-0 text-sm">Email Address<span class="note text-danger">*</span></h6>
+                         </div>
+                         <div class="col-lg-5">
+                             <input class="mb-4" type=" text" name="email" placeholder="Enter a valid email address">
+                             <a type="submit" class="mb-4 text-primary font-weight-bold"><b>Click here to request link</b></a>
+                         </div>
                      </div>
                  </div>
-             </div>
+             </form>
          </div>
      </div>
  </div>

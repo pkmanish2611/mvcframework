@@ -177,6 +177,40 @@ class Users extends Controller
         }
         $this->view('users/verification', $data);
     }
+    public function forgotPassword(){
+        $data = [
+            'title' => 'Login page',
+            'email' => '',
+            'link' =>   '',
+            'mailSentMsg' => '',
+            'emailError' => '', 
+        ];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'email' => trim($_POST['email']),
+                'link' =>   'http://localhost/mvcframework/users/forgotPassword/?id=',
+                'mailSentMsg' => '',
+                'emailError' => ''
+            ];
+            if (empty($data['email'])) {
+                $data['emailError'] = 'Please enter email address.';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['emailError'] = 'Please enter the correct format.';
+            }
+            if(empty($data['emailError'])){
+
+            }
+        }else{
+            $data = [
+                'title' => 'Login page',
+                'email' => '',
+                'emailError' => '',
+            ]; 
+        }
+        
+    }
 
     public function createUserSession($user)
     {
