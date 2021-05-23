@@ -40,9 +40,10 @@ class User
 
         $row = $this->db->single();
 
-        $hashedPassword = $row->password;
+        $hashedPassword = $row->password;  
+        $verified = $row->verified;
 
-        if (password_verify($password, $hashedPassword)) {
+        if (password_verify($password, $hashedPassword) && ($verified == 1)) {
             return $row;
         } else {
             return false;
@@ -93,7 +94,15 @@ class User
         }
     }
     public function verifyUser($id){
-        
-    }
-     
+        $this->db->query('UPDATE users SET  verified= 1 WHERE id = :id');
+
+        //Bind value
+        $this->db->bind(':id', $id);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        } 
+    }   
 }

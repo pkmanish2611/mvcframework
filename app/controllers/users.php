@@ -1,6 +1,6 @@
 <?php
 
- 
+
 
 class Users extends Controller
 {
@@ -15,7 +15,7 @@ class Users extends Controller
             'username' => '',
             'email' => '',
             'password' => '',
-            'confirmPassword' => '', 
+            'confirmPassword' => '',
             'link' => '',
             'message' => '',
             'errorMessage' => '',
@@ -34,7 +34,7 @@ class Users extends Controller
                 'username' => trim($_POST['username']),
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'confirmPassword' => trim($_POST['confirmPassword']),  
+                'confirmPassword' => trim($_POST['confirmPassword']),
                 'link' =>   'http://localhost/mvcframework/users/login/?id=',
                 'message' => '',
                 'errorMessage' => '',
@@ -60,9 +60,9 @@ class Users extends Controller
             } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $data['emailError'] = 'Please enter the correct format.';
             } else if ($this->userModel->findUserByEmail($data['email'])) {
-                    $data['emailError'] = 'Email is already taken.';
+                $data['emailError'] = 'Email is already taken.';
             }
-            
+
 
             // Validate password on length, numeric values,
             if (empty($data['password'])) {
@@ -77,8 +77,7 @@ class Users extends Controller
             if (empty($data['confirmPassword'])) {
                 $data['confirmPasswordError'] = 'Please enter confirm password.';
             } else if ($data['password'] != $data['confirmPassword']) {
-                    $data['confirmPasswordError'] = 'Passwords do not match please try again.';
-                
+                $data['confirmPasswordError'] = 'Passwords do not match please try again.';
             }
 
             // Make sure that errors are empty
@@ -86,83 +85,83 @@ class Users extends Controller
 
                 // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                
-                //Register user from model function
-                if ($this->userModel->register($data)){
-                    $this->userModel->sendVerificationMail($data);
-                    $data['message'] = true ;
 
+                //Register user from model function
+                if ($this->userModel->register($data)) {
+                    $this->userModel->sendVerificationMail($data);
+                    $data['message'] = true;
                 } else {
-                    $data['errorMessage'] = true; 
-                } 
+                    $data['errorMessage'] = true;
+                }
             }
         }
         $this->view('users/register', $data);
     }
-     
+
 
 
     public function login()
     {
         $data = [
             'title' => 'Login page',
-            'username' => '',
+            'email' => '',
             'password' => '',
             'verifySuccess' => '',
             'verifyError' => '',
-            'usernameError' => '',
+            'emailError' => '',
             'passwordError' => ''
         ];
-        if(isset($_GET['id'])){
+        if (isset($_GET['id'])) {
             $id = $_GET['id'];
             print_r($id);
-            if($this->userModel->verifyUser($id)){
+            if ($this->userModel->verifyUser($id)) {
                 $data['verifySuccess'] = true;
-            }else{
+            } else {
                 $data['verifyError'] = true;
             }
-        }  
-        //Check for post
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //Sanitize post data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            $data = [
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'emailError' => '',
-                'passwordError' => '',
-            ];
-            //Validate username
-            if (empty($data['email'])) {
-                $data['emailError'] = 'Please enter email.';
-            }
-
-            //Validate password
-            if (empty($data['password'])) {
-                $data['passwordError'] = 'Please enter a password.';
-            }
-            $this->userModel->verifyLinkUser();
-
-            //Check if all errors are empty
-            if (empty($data['emailError']) && empty($data['passwordError'])) {
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-
-                if ($loggedInUser) {
-                    $this->createUserSession($loggedInUser);
-                } else {
-                    $data['passwordError'] = 'Password or username is incorrect. Please try again.'; 
-                }
-            }
         } else {
-            $data = [
-                'email' => '',
-                'password' => '',
-                'verifySuccess' => '',
-                'verifyError' => '',
-                'emailError' => '',
-                'passwordError' => ''
-            ];
+            //Check for post
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                //Sanitize post data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'email' => trim($_POST['email']),
+                    'password' => trim($_POST['password']),
+                    'verifySuccess' => '',
+                    'verifyError' => '',
+                    'emailError' => '',
+                    'passwordError' => '',
+                ];
+                //Validate username
+                if (empty($data['email'])) {
+                    $data['emailError'] = 'Please enter email.';
+                }
+
+                //Validate password
+                if (empty($data['password'])) {
+                    $data['passwordError'] = 'Please enter a password.';
+                }
+                //Check if all errors are empty
+                if (empty($data['emailError']) && empty($data['passwordError'])) {
+                    $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                    if ($loggedInUser) {
+                        $this->createUserSession($loggedInUser);
+                    } else {
+                        $data['passwordError'] = 'Password or username is incorrect. Please try again.';
+                    }
+                }
+            } else {
+                $data = [
+                    'email' => '',
+                    'password' => '',
+                    'verifySuccess' => '',
+                    'verifyError' => '',
+                    'emailError' => '',
+                    'passwordError' => ''
+                ];
+            }
         }
         $this->view('users/login', $data);
     }
@@ -172,7 +171,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->id;
         $_SESSION['username'] = $user->username;
         $_SESSION['email'] = $user->email;
-        $_SESSION['role'] = $user ->role;
+        $_SESSION['role'] = $user->role;
         header('location:' . URLROOT . 'books/bookList');
     }
 
