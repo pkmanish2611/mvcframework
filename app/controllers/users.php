@@ -15,8 +15,8 @@ class Users extends Controller
             'username' => '',
             'email' => '',
             'password' => '',
-            'confirmPassword' => '',
-            'verify_token' => '',
+            'confirmPassword' => '', 
+            'link' => '',
             'message' => '',
             'errorMessage' => '',
             'usernameError' => '',
@@ -34,8 +34,8 @@ class Users extends Controller
                 'username' => trim($_POST['username']),
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'confirmPassword' => trim($_POST['confirmPassword']), 
-                'verify_token' => bin2hex(random_bytes(15)), 
+                'confirmPassword' => trim($_POST['confirmPassword']),  
+                'link' =>   'http://localhost/mvcframework/users/login/?id=',
                 'message' => '',
                 'errorMessage' => '',
                 'usernameError' => '',
@@ -99,6 +99,8 @@ class Users extends Controller
         }
         $this->view('users/register', $data);
     }
+     
+
 
     public function login()
     {
@@ -106,10 +108,20 @@ class Users extends Controller
             'title' => 'Login page',
             'username' => '',
             'password' => '',
+            'verifySuccess' => '',
+            'verifyError' => '',
             'usernameError' => '',
             'passwordError' => ''
         ];
-
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            print_r($id);
+            if($this->userModel->verifyUser($id)){
+                $data['verifySuccess'] = true;
+            }else{
+                $data['verifyError'] = true;
+            }
+        }  
         //Check for post
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Sanitize post data
@@ -130,6 +142,7 @@ class Users extends Controller
             if (empty($data['password'])) {
                 $data['passwordError'] = 'Please enter a password.';
             }
+            $this->userModel->verifyLinkUser();
 
             //Check if all errors are empty
             if (empty($data['emailError']) && empty($data['passwordError'])) {
@@ -145,6 +158,8 @@ class Users extends Controller
             $data = [
                 'email' => '',
                 'password' => '',
+                'verifySuccess' => '',
+                'verifyError' => '',
                 'emailError' => '',
                 'passwordError' => ''
             ];

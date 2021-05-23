@@ -45,7 +45,7 @@
 
       // Call a callback with array of params
       call_user_func_array([$this->controller, $this->method], $this->params);
-      //show($url);
+      show($url);
     }
 
     public function getUrl(){

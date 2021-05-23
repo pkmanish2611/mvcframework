@@ -19,17 +19,18 @@
                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
              <?php } ?>
          </div>
-     <?php }  
+     <?php }
         if ($data['message']) { ?>
          <div class="alert alert-success text-center alert-dismissible fade show mx-5 px-5" role="alert">
-             <h6 class="text-success">hola ! registration successful<i class="bi bi-emoji-smile"></i></h6>
-             <p>Before proceeding, please check your email for a verification link. if you did not receive the email,</p>
+             <h6 class="text-success">hola ! registration successful<i class="bi bi-emoji-smile-fill"></i></h6>
+             <p>Before proceeding, please check your email <strong> <?php echo $data["email"]; ?> </strong>for a verification link. if you did not receive the email,</p>
              <a class="text-primary py-4">Click here to request another .</a>
+             <a href="<?php echo URLROOT ?>users/login" data-toggle="tooltip" data-placement="top" title="Go to login page" type="button" class="btn-close" aria-label="Close"></a>
          </div>
      <?php }
         if ($data['errorMessage']) { ?>
          <div class="alert alert-danger text-center alert-dismissible fade show mx-5 px-5" role="alert">
-             <h6 class="text-danger">hola ! registration successful<i class="bi bi-emoji-smile"></i></h6>
+             <h6 class="text-danger">hola ! registration unsuccessful<i class="bi bi-emoji-frown-fill"></i></h6>
              <p>Something went wrong</p>
              <a class="btn btn-danger-rounded" data-bs-dismiss="modal">Try again</a>
          </div>

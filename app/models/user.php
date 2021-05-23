@@ -15,16 +15,15 @@ class User
 
     public function register($data)
     {
-        $this->db->query('INSERT INTO users (username, email, password, verify_token) VALUES(:username, :email, :password, :verify_token)');
+        $this->db->query('INSERT INTO users (username, email, password) VALUES(:username, :email, :password)');
 
         //Bind values
         $this->db->bind(':username', $data['username']);
         $this->db->bind(':email', $data['email']);
-        $this->db->bind(':password', $data['password']);
-        $this->db->bind(':verify_token', $data['verify_token']); 
+        $this->db->bind(':password', $data['password']); 
 
         //Execute function
-        if ($this->db->execute()) { 
+        if ($this->db->execute()) {
              return true; 
         } else {
             return false;
@@ -69,6 +68,10 @@ class User
     }
     public function sendVerificationMail($data)
     {
+        $this->db->query('SELECT * FROM users WHERE email = :email'); 
+        $this->db->bind(':email', $data['email']); 
+        $row = $this->db->single(); 
+        $id = $row->id;
         try { 
             //Recipients
             $GLOBALS['mail']->setFrom('bookshelf2611@gmail.com', 'Admin');
@@ -77,9 +80,8 @@ class User
             //Content
              
             $GLOBALS['mail']->Subject = 'Email verification link';
-            $GLOBALS['mail']->Body = 'Hello <b> ,</b><br/><br/>This mail is to verify your account. so, please click on link given below to verify your account<br/> <br/><br/><br/>Thanks and regards,<br/> Bookshelf admin  ';
-            $GLOBALS['mail']->AltBody = 'Hello <b>'.$data['username']. ',</b><br/><br/>This mail is to verify your account. so, please click on link given below to verify your account<br/> <br/><br/><br/>Thanks and regards,<br/> Bookshelf admin.  ';
-
+            $GLOBALS['mail']->Body = 'Hi ' . $data['username'] . ' ,<br/><br/>Thank you for Registering with Bookshelf.<br>Please verify your email account by <a href="' . $data['link'] .$id. '"> clicking on this activation link</a><br/>Welcome once again. <br> <br/><br/>Thanks & Regards,<br> Bookshelf Team';
+            
             if($GLOBALS['mail']->send()){
                 return true;
                 echo 'Message has been sent';
@@ -89,6 +91,9 @@ class User
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$GLOBALS['mail']->ErrorInfo}";
         }
+    }
+    public function verifyUser($id){
+        
     }
      
 }
