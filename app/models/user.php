@@ -92,6 +92,43 @@ class User
             echo "Message could not be sent. Mailer Error: {$GLOBALS['mail']->ErrorInfo}";
         }
     }
+    public function passwordResetMail($data)
+    {
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->bind(':email', $data['resetMail']);
+        $row = $this->db->single();
+        $id = $row->id;
+        $name =$row->username;
+        try {
+            //Recipients
+            $GLOBALS['mail']->setFrom('bookshelf2611@gmail.com', 'Admin');
+            $GLOBALS['mail']->addAddress($data['resetMail'], $name); //Add a recipient 
+            $GLOBALS['mail']->addReplyTo('bookshelf2611@gmail.com', 'Bookshelf | Do Not Reply to this mail unless you wanna talk to a machine');
+            //Content
+
+            $GLOBALS['mail']->Subject = 'Password Reset link';
+            $GLOBALS['mail']->Body = 'Hi ' . $name . ' ,<br/><br/>Thank you for Registering with Bookshelf.<br>Please reset your password by <a href="' . $data['link'] . $id . '"> clicking on this reset link</a><br/>once you click you will be redirected to password reset page. <br> <br/><br/>Thanks & Regards,<br> Bookshelf Team';
+
+            if ($GLOBALS['mail']->send()) {
+                return true;
+                echo 'Message has been sent';
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$GLOBALS['mail']->ErrorInfo}";
+        }
+    }
+    public function passwordReset($data, $id){ 
+        $this->db->query("UPDATE users SET password= :password WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':password', $data['password']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        } 
+    }
     public function verifyUser($id){
         $this->db->query('UPDATE users SET  verified= 1 WHERE id = :id');
 

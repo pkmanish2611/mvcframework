@@ -58,7 +58,7 @@ class Users extends Controller
             //Validate email
             if (empty($data['email'])) {
                 $data['emailError'] = 'Please enter email address.';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            } else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $data['emailError'] = 'Please enter the correct format.';
             } else if ($this->userModel->findUserByEmail($data['email'])) {
                 $data['emailError'] = 'Email is already taken.';
@@ -68,9 +68,9 @@ class Users extends Controller
             // Validate password on length, numeric values,
             if (empty($data['password'])) {
                 $data['passwordError'] = 'Please enter password.';
-            } elseif (strlen($data['password']) < 6) {
+            } else if (strlen($data['password']) < 6) {
                 $data['passwordError'] = 'Password must be at least 8 characters.';
-            } elseif (preg_match($passwordValidation, $data['password'])) {
+            } else if (preg_match($passwordValidation, $data['password'])) {
                 $data['passwordError'] = 'Password must be have at least one numeric value.';
             }
 
@@ -166,16 +166,25 @@ class Users extends Controller
                 'resetMail' => trim($_POST['resetMail']),
                 'link' =>   'http://localhost/mvcframework/users/passwordReset/?id=',
                 'resetMailError' => '',
-                'resetMessage' => '',
+                'resetMailSent' => '',
                 'resetMailSentError' => ''
             ];
             if (empty($data['resetMail'])) {
                 $data['resetMailError'] = 'Please enter email address.';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            } else if (!filter_var($data['resetMail'], FILTER_VALIDATE_EMAIL)) {
                 $data['resetMailError'] = 'Please enter the correct format.';
+            } else if ($this->userModel->findUserByEmail($data['resetMail'])) {
+                $data['resetMailError'] = '';
+            }else{
+                $data['resetMailError'] = 'You are not registered with us please register yourself first';
             }
-            if (empty($data['resetMailError'])) {
 
+            if (empty($data['resetMailError'])) {
+                if($this->userModel->passwordResetMail($data)){
+                    $data['resetMailSent'] = 'Mail is sent to you with password reset link';
+                }else{
+                    $data['resetMailSentError'] = "mail can't be sent right now please try again";
+                }
             }
         } else {
             $data = [
@@ -222,9 +231,10 @@ class Users extends Controller
             'confirmPassword' => '',
             'passwordError' => '',
             'confirmPasswordError' => '',
-            'message' => '',
-            'errorMessage' => ''
+            'passwordChanged' => '',
+            'passwordChangedError' => ''
         ];
+        $id = $_GET['id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form
@@ -234,8 +244,8 @@ class Users extends Controller
             $data = [
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'message' => '',
-                'errorMessage' => '',
+                'passwordChanged' => '',
+                'passwordChangedError' => '',
                 'passwordError' => '',
                 'confirmPasswordError' => ''
             ];
@@ -261,12 +271,21 @@ class Users extends Controller
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 //Register user from model function
-                if ($this->userModel->passwordReset($data)) {
-                    $data['message'] = true;
+                if ($this->userModel->passwordReset($data,$id)) {
+                    $data['passwordChanged'] = 'Password has been changed successfully please go to login page';
                 } else {
-                    $data['errorMessage'] = true;
+                    $data['passwordChangedError'] = 'Password has not been changed ! Please try again';
                 }
             }
+        }else{
+            $data = [
+                'password' => '',
+                'confirmPassword' => '',
+                'passwordError' => '',
+                'confirmPasswordError' => '',
+                'passwordChanged' => '',
+                'passwordChangedError' => ''
+            ];
         }
         $this->view('users/passwordReset', $data);
     }

@@ -3,24 +3,37 @@
     ?>
 
 
-
  <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
      <?php
+        if ($data["resetMailError"] or $data["resetMailSent"] or $data["resetMailSentError"]) { ?>
+         <div class="alert alert-danger alert-dismissible fade show mx-5 px-5" role="alert">
+             <?php if ($data["resetMailError"]) { ?>
+                 <li><?php echo $data["resetMailError"]; ?><i class="bi bi-emoji-frown-fill"></i></li>
+             <?php }
+                if ($data["resetMailSent"]) { ?>
+                 <li><?php echo $data["resetMailSent"]; ?><i class="bi bi-emoji-smile-fill"></i></li>
+             <?php }
+                if ($data["resetMailSentError"]) { ?>
+                 <li><?php echo $data["resetMailSentError"]; ?><i class="bi bi-emoji-frown-fill"></i></li>
+             <?php } ?>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+     <?php }
         if ($data["emailError"] or $data["passwordError"]) { ?>
          <div class="alert alert-danger alert-dismissible fade show mx-5 px-5" role="alert">
              <?php if ($data["emailError"]) { ?>
-                 <li><?php echo $data["emailError"]; ?></li>
+                 <li><?php echo $data["emailError"]; ?><i class="bi bi-emoji-frown-fill"></i></li>
              <?php }
                 if ($data["passwordError"]) { ?>
-                 <li><?php echo $data["passwordError"]; ?></li>
-                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                 <li><?php echo $data["passwordError"]; ?><i class="bi bi-emoji-frown-fill"></i></li>
              <?php } ?>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
          </div>
      <?php } ?>
      <form method="POST">
          <div class="card card0 border-0">
              <div class="row px-3 mb-6 justify-content-between">
-                 <div class="line"></div> <small class="or text-center">Login</small>
+                 <div class="line"></div> <small class="or text-center px-0">Login</small>
                  <div class="line"></div>
              </div>
              <div class="row d-flex">
@@ -57,14 +70,14 @@
      </form>
  </div>
 
- <div class="modal hide fade" id="loginModel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered modal-xl">
+ <div class="modal hide fade" id="loginModel" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered ">
          <div class="modal-content">
              <div class="modal-header" style="background: rgba(77, 244, 174, 100);">
                  <h5 class="modal-title text-white" id="exampleModalLabel">Verify Your Email Address</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
-             <form method="POST">
+             <form method="POST" id="emailForm">
                  <div class="modal-body">
                      <div class="row px-3 text-center">
                          <label class="mb-1">
@@ -76,12 +89,12 @@
                              <h6 class="mb-0 text-sm">Email Address<span class="note text-danger">*</span></h6>
                          </div>
                          <div class="col-lg-5">
-                             <input class="mb-0" type="email" name="resetMail" placeholder="Enter a valid email address">
+                             <input class="mb-1" type="email" name="resetMail" placeholder="Enter a valid email address">
                              <span class="invalidFeedback mb-3 text-danger">
                                  <?php echo $data['resetMailError']; ?>
                              </span>
                              <div col>
-                                 <button type="submit" value="sendMail" name="sendMail" class="mb-4 btn btn-success-rounded ">Confirm</button>
+                                 <button type="submit" value="sendMail" name="sendMail" class="btn btn-sm btn-outline-success  mb-4">Confirm</button>
                              </div>
                          </div>
                      </div>
@@ -90,6 +103,7 @@
          </div>
      </div>
  </div>
+
 
 
 
