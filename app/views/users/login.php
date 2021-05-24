@@ -5,7 +5,6 @@
 
 
  <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-
      <?php
         if ($data["emailError"] or $data["passwordError"]) { ?>
          <div class="alert alert-danger alert-dismissible fade show mx-5 px-5" role="alert">
@@ -18,7 +17,7 @@
              <?php } ?>
          </div>
      <?php } ?>
-     <form action="<?php echo URLROOT ?>users/login" method="POST">
+     <form method="POST">
          <div class="card card0 border-0">
              <div class="row px-3 mb-6 justify-content-between">
                  <div class="line"></div> <small class="or text-center">Login</small>
@@ -48,7 +47,7 @@
                              <a href="#" class="ml-auto mb-0 text-sm  " data-bs-toggle="modal" data-bs-target="#loginModel">Forgot Password?</a>
                          </div>
                          <div class=" col mb-4 px-3">
-                             <button type="submit" class="btn btn-blue text-center">Sign in</button>
+                             <button type="submit" class="btn btn-blue text-center" value="login" name="login">Sign in</button>
                              <small class="font-weight-bold">Don't have an account? <a class="text-danger" href="<?php echo URLROOT ?>users/register">Register</a></small>
                          </div>
                      </div>
@@ -58,14 +57,14 @@
      </form>
  </div>
 
- <div class="modal fade" id="loginModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal hide fade" id="loginModel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
      <div class="modal-dialog modal-dialog-centered modal-xl">
          <div class="modal-content">
              <div class="modal-header" style="background: rgba(77, 244, 174, 100);">
                  <h5 class="modal-title text-white" id="exampleModalLabel">Verify Your Email Address</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
-             <form action="<?php echo URLROOT ?>users/forgotPassword" method="POST">
+             <form method="POST">
                  <div class="modal-body">
                      <div class="row px-3 text-center">
                          <label class="mb-1">
@@ -77,8 +76,13 @@
                              <h6 class="mb-0 text-sm">Email Address<span class="note text-danger">*</span></h6>
                          </div>
                          <div class="col-lg-5">
-                             <input class="mb-4" type=" text" name="email" placeholder="Enter a valid email address">
-                             <a type="submit" class="mb-4 text-primary font-weight-bold"><b>Click here to request link</b></a>
+                             <input class="mb-0" type="email" name="resetMail" placeholder="Enter a valid email address">
+                             <span class="invalidFeedback mb-3 text-danger">
+                                 <?php echo $data['resetMailError']; ?>
+                             </span>
+                             <div col>
+                                 <button type="submit" value="sendMail" name="sendMail" class="mb-4 btn btn-success-rounded ">Confirm</button>
+                             </div>
                          </div>
                      </div>
                  </div>

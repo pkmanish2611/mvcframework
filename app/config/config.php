@@ -25,4 +25,4 @@
     }else{
         ini_set("display_errors", 0);
     }
-http: //localhost/mvcframework/public/welcome 
+  

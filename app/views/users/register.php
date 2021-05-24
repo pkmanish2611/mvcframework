@@ -33,6 +33,7 @@
              <h6 class="text-danger">hola ! registration unsuccessful<i class="bi bi-emoji-frown-fill"></i></h6>
              <p>Something went wrong</p>
              <a class="btn btn-danger-rounded" data-bs-dismiss="modal">Try again</a>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
          </div>
      <?php } ?>
      <div class="card card0 border-0">

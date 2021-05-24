@@ -9,7 +9,7 @@
     require_once 'helpers/session_helper.php';
     require_once 'libraries/PHPMailer/src/PHPMailer.php';
     require_once 'libraries/PHPMailer/src/Exception.php';
-    require_once 'libraries/PHPMailer/src/SMTP.php';
+    require_once 'libraries/PHPMailer/src/SMTP.php'; 
 
     require_once 'config/config.php';
     require_once 'config/mailer.php';

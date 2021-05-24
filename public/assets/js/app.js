@@ -21,3 +21,11 @@ function preview() {
         img.setAttribute('src', result);
     }
 }
+
+function model() {
+$('#loginModel').on('submit', function(){
+    $('#modal').on('hide.bs.modal', function(e){
+        e.preventDefault();
+    })
+})
+}

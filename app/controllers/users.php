@@ -25,6 +25,7 @@ class Users extends Controller
             'confirmPasswordError' => ''
         ];
 
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form
             // Sanitize POST data
@@ -101,27 +102,35 @@ class Users extends Controller
 
 
     public function login()
-    {
+    { 
         $data = [
             'title' => 'Login page',
             'email' => '',
             'password' => '',
             'emailError' => '',
-            'passwordError' => ''
+            'passwordError' => '',
+            'resetMail' => '',
+            'link' =>   '',
+            'resetMailError' => '',
+            'resetMailSent' => '',
+            'resetMailSentError' => '',
+
         ];
-
-
         //Check for post
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['login'])) {
             //Sanitize post data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
 
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'emailError' => '',
                 'passwordError' => '',
+                'resetMail' => '',
+                'link' =>   '',
+                'resetMailError' => '',
+                'resetMailSent' => '',
+                'resetMailSentError' => ''
             ];
 
             //Validate username
@@ -145,12 +154,40 @@ class Users extends Controller
                     $data['passwordError'] = 'Password or username is incorrect. Please try again.';
                 }
             }
+        }else
+         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sendMail'])) {
+            //Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'email' => '',
+                'password' => '',
+                'emailError' => '',
+                'passwordError' => '',
+                'resetMail' => trim($_POST['resetMail']),
+                'link' =>   'http://localhost/mvcframework/users/passwordReset/?id=',
+                'resetMailError' => '',
+                'resetMessage' => '',
+                'resetMailSentError' => ''
+            ];
+            if (empty($data['resetMail'])) {
+                $data['resetMailError'] = 'Please enter email address.';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['resetMailError'] = 'Please enter the correct format.';
+            }
+            if (empty($data['resetMailError'])) {
+
+            }
         } else {
             $data = [
                 'email' => '',
                 'password' => '',
                 'emailError' => '',
-                'passwordError' => ''
+                'passwordError' => '',
+                'resetMail' => '',
+                'link' =>   '',
+                'resetMailError' => '',
+                'resetMailSent' => '',
+                'resetMailSentError' => '',
             ];
         }
 
@@ -163,7 +200,7 @@ class Users extends Controller
             'verifyError' => ''
         ];
         if (isset($_GET['id'])) {
-            $id = $_GET['id']; 
+            $id = $_GET['id'];
             if ($this->userModel->verifyUser($id)) {
                 $data['verifySuccess'] = true;
             } else {
@@ -177,39 +214,61 @@ class Users extends Controller
         }
         $this->view('users/verification', $data);
     }
-    public function forgotPassword(){
+     
+    public function passwordReset()
+    {
         $data = [
-            'title' => 'Login page',
-            'email' => '',
-            'link' =>   '',
-            'mailSentMsg' => '',
-            'emailError' => '', 
+            'password' => '',
+            'confirmPassword' => '',
+            'passwordError' => '',
+            'confirmPasswordError' => '',
+            'message' => '',
+            'errorMessage' => ''
         ];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //Sanitize post data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'email' => trim($_POST['email']),
-                'link' =>   'http://localhost/mvcframework/users/forgotPassword/?id=',
-                'mailSentMsg' => '',
-                'emailError' => ''
-            ];
-            if (empty($data['email'])) {
-                $data['emailError'] = 'Please enter email address.';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['emailError'] = 'Please enter the correct format.';
-            }
-            if(empty($data['emailError'])){
 
-            }
-        }else{
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
             $data = [
-                'title' => 'Login page',
-                'email' => '',
-                'emailError' => '',
-            ]; 
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword']),
+                'message' => '',
+                'errorMessage' => '',
+                'passwordError' => '',
+                'confirmPasswordError' => ''
+            ];
+            $passwordValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
+
+            if (empty($data['password'])) {
+                $data['passwordError'] = 'Please enter password.';
+            } elseif (strlen($data['password']) < 6) {
+                $data['passwordError'] = 'Password must be at least 8 characters.';
+            } elseif (preg_match($passwordValidation, $data['password'])) {
+                $data['passwordError'] = 'Password must be have at least one numeric value.';
+            }
+
+            //Validate confirm password
+            if (empty($data['confirmPassword'])) {
+                $data['confirmPasswordError'] = 'Please enter confirm password.';
+            } else if ($data['password'] != $data['confirmPassword']) {
+                $data['confirmPasswordError'] = 'Passwords do not match please try again.';
+            }
+            if (empty($data['passwordError']) && empty($data['confirmPasswordError'])) {
+
+                // Hash password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                //Register user from model function
+                if ($this->userModel->passwordReset($data)) {
+                    $data['message'] = true;
+                } else {
+                    $data['errorMessage'] = true;
+                }
+            }
         }
-        
+        $this->view('users/passwordReset', $data);
     }
 
     public function createUserSession($user)
