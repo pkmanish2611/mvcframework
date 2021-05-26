@@ -13,7 +13,7 @@
              <div class="col-lg-3 ">
                  <div class="card1 pb-0 ">
                      <div class="row px-3 justify-content-center mt-4 mb-5 ">
-                         <img class="img" style=" height: 380px;" src="#">
+                         <img class="img" style=" height: 380px;" src="<?php echo ASSETS  ?>img/uploads/<?php echo $data['bookImage'] ?>">
                          <div class="d-flex px-0 py-1 justify-content-between">
                              <a class="btn text-success">Mark as read<i class="bi bi-patch-check"></i></a>
                              <a class="btn text-success"> Add to wishlist<i class="bi bi-bookmarks"></i></a>
@@ -27,11 +27,11 @@
              </div>
              <div class="col-lg-7">
                  <div class="card2 card border-0 px-4 py-5">
-                     <h3 class="card-title">title</h3>
-                     <h5 class="card-sub-title">By :author</h5>
-                     <p class="card-text d-flex justify-content-end"><small class="text-muted">Available count:</small></p>
-                     <p class="card-text">description:</p>
-                     <p class="card-text d-flex justify-content-end"><small class="text-muted">Modified on:</small></p>
+                     <h3 class="card-title"><?php echo $data['bookName'] ?></h3>
+                     <h5 class="card-sub-title">By:<?php echo $data['bookAuthor'] ?> </h5>
+                     <p class="card-text d-flex justify-content-end"><small class="text-muted">Available count:<?php echo $data['bookCount'] ?></small></p>
+                     <p class="card-text">description:<?php echo $data['bookDescription'] ?></p>
+                     <p class="card-text d-flex justify-content-end"><small class="text-muted">Modified on:<?php echo $data['modifiedDate'] ?></small></p>
                  </div>
                  <?php if (isset($_SESSION['user_id']) && $_SESSION['role'] == 1) { ?>
                      <div class="d-flex  justify-content-end">

@@ -4,10 +4,12 @@ var myInput = document.getElementById('myInput')
 myModal.addEventListener('shown.bs.modal', function () {
     myInput.focus()
 });
-*/
+
+ 
 $('li').click(function () {
-    $(this).addClass('active').siblings().removeClass('active');
+   $(this).addClass('active').siblings().removeClass('active');
 });
+*/
 
 var input = document.querySelector('#file-input');
 input.addEventListener('change', preview);
