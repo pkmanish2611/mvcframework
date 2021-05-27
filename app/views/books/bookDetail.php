@@ -47,14 +47,14 @@
      <div class="modal-dialog modal-dialog-centered ">
          <div class="modal-content">
              <div class="modal-header" style="background: rgba(77, 244, 174, 100);">
-                 <h5 class="modal-title" id="exampleModalLabel">Verify Your Email Address</h5>
+                 <h5 class="modal-title" id="exampleModalLabel">Delete book !!</h5>
              </div>
              <div class="modal-body">
                  <div class="modal-body">
-                     <p>This data will not be retrieved back after deleted once.</p>
+                     <p class="text-danger">This data will not be retrieved back after deleted once.</p>
                  </div>
                  <div class="modal-footer">
-                     <a href="db/delete.php?id=<?php echo $b_id; ?>" class="modal-close btn btn-sm btn-outline-danger">Sure</a>
+                     <a href="<?php echo URLROOT ?>books/bookDelete/<?php echo $data['bookId'] ?>" class="btn btn-sm btn-outline-danger">Sure</a>
                      <a href="#" class="modal-close btn btn-sm btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
                  </div>
              </div>
@@ -65,4 +65,4 @@
 
  <?php
     include  ROOT . '/views/includes/footer.php';
-    ?>
+ ?>

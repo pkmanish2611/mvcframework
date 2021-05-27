@@ -93,15 +93,15 @@ class books extends Controller
     }
 
     public function bookList()
-    {
-        $data['page_title'] = "bookList";
-
+    { 
+        $data = $this->bookModel->getAllRecord() ; 
         $this->view('books/bookList', $data);
     }
     public function bookDetail()
     {
         $data = [
             'page_title' => 'bookDetail',
+            'bookId' => '',
             'bookName' =>  '',
             'bookAuthor' =>  '',
             'bookDescription' =>'', 
@@ -114,6 +114,7 @@ class books extends Controller
         if($row = $this->bookModel->bookDetail($id)){
             $data = [
                 'page_title' => 'bookDetail',
+                'bookId' => $id,
                 'bookName' => $row->book_name,
                 'bookAuthor' => $row->book_author,
                 'bookDescription' => $row->book_description,
@@ -131,9 +132,16 @@ class books extends Controller
 
         $this->view('books/editBook', $data);
     }
-    public function bookDelete()
-    {
-         
+    public function bookDelete() 
+    { 
+        $url = $this->getUrl();
+        $id = $url[2];
+        if($this->bookModel->bookDelete($id)){ 
+            $_SESSION['bookDeleted'] = "Book deleted successfully";
+            header('location:' . URLROOT . 'books/bookList');
+        }else{
+            $_SESSION['bookDeletedError'] = "Book not deleted successfully";
+        } 
     }
     public function getUrl()
     {

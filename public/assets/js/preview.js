@@ -10,3 +10,8 @@ function preview(){
         img.setAttribute('src',result);
     }
 }
+
+ 
+$(document).ready(function () {
+    $(this).addClass('active').siblings().removeClass('active');
+});
