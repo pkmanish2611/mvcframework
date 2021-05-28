@@ -41,6 +41,9 @@ class Book
             return false;
         } 
     }
+    public function editBook(){
+        
+    }
     public function getAllRecord(){
         $this->db->query('SELECT * FROM books ORDER BY book_id ASC');
         $result = $this->db->resultSet(); 

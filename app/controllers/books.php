@@ -121,16 +121,30 @@ class books extends Controller
                 'bookImage' => $row->book_image,
                 'bookCount' => $row->total_count,
                 'modifiedDate' => $row->modified_date
-            ];
-
+            ]; 
         } 
         $this->view('books/bookDetail', $data);
     }
     public function editBook()
     {
-        $data['page_title'] = "editBook";
-
-        $this->view('books/editBook', $data);
+        $url = $this->getUrl();
+        $id = $url[2];
+         $data = [ 
+                'bookName' => trim($_POST['bookName']),
+                'bookAuthor' => trim($_POST['bookAuthor']),
+                'bookDescription' => nl2br(trim($_POST['bookDescription'])),
+                'bookImage' => '',
+                'bookCount' => trim($_POST['bookCount']) 
+         ];
+        if (($_FILES['bookImage']['size'] <= (1024 * 1024)) and (($_FILES['bookImage']['type'] == "image/jpeg") or ($_FILES['bookImage']['type'] == "image/png"))) {
+            move_uploaded_file($_FILES['bookImage']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . "/MVCframework/public/assets/img/uploads/" . $_FILES['bookImage']['name']);
+            $data['bookImage'] = $_FILES['bookImage']['name'];
+        }
+        if ($this->bookModel->bookDelete($id,$data)) {
+            $_SESSION['bookEdited'] = "Book edited successfully";  
+        } else {
+            $_SESSION['bookEditedError'] = "Book not edited successfully";
+        } 
     }
     public function bookDelete() 
     { 

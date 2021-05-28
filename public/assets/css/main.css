@@ -13,55 +13,34 @@
   margin: 0px 0px 0px 0px;
 }
 
-.navbar {
+.navbar-main {
   background: #4df4ae;
-  -webkit-box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.1);
-          box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar .container .navbar-brand {
+.navbar-main .container .navbar-brand {
   font-weight: bold;
   color: white;
 }
 
-.navbar .container .navbar-toggler {
+.navbar-main .container .navbar-toggler {
   background: #4df4ae;
 }
 
-.navbar .container .collapse .navbar-nav {
+.navbar-main .container .collapse .navbar-nav {
   list-style: none;
 }
 
-.navbar .container .collapse .navbar-nav .d-flex {
-  height: 35px;
-}
-
-.navbar .container .collapse .navbar-nav .d-flex .circle-icon {
-  width: 35px;
-  height: inherit;
-  border-bottom: 2px solid #fcfcfc;
-  text-align: center;
-  vertical-align: middle;
-  padding: 5px 2px 5px 5px;
-}
-
-.navbar .container .collapse .navbar-nav .d-flex .form_se {
-  height: 33px;
-  border: 2px solid #fcfcfc;
-  border-radius: 5px  5px 5px 0;
-}
-
-.navbar .container .collapse .navbar-nav .nav-item a {
+.navbar-main .container .collapse .navbar-nav .nav-item a {
   color: #fffefe;
 }
 
-.navbar .container .collapse .navbar-nav .nav-item a:hover {
+.navbar-main .container .collapse .navbar-nav .nav-item a:hover {
   background: rgba(206, 213, 214, 0.281);
   height: 35px;
   border-radius: 5px;
 }
 
-.navbar .container .collapse .navbar-nav .nav-item .login_btn {
+.navbar-main .container .collapse .navbar-nav .nav-item .login_btn {
   padding-left: 15px;
   padding-right: 15px;
   height: 35px;

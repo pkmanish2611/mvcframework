@@ -25,7 +25,7 @@
          <header class="sticky-top">
 
              <!-- Bootstrap Navigation bar -->
-             <nav class="navbar navbar-expand-lg navbar-light ">
+             <nav class="navbar navbar-expand-lg navbar-light navbar-main">
                  <div class="brand container">
                      <a class="navbar-brand pb-0" href="<?php echo URLROOT ?>pages/landing">
                          <img src="<?php echo ASSETS  ?>img/logo/library.png " alt="" width="45" height="45" class="d-inline-block align-text-bottom">
@@ -36,12 +36,12 @@
                          <span class="navbar-toggler-icon"></span>
                      </button>
                      <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
-
                          <ul class="navbar-nav ml-auto mt-2">
-                             <form class="search-form d-flex" method="GET" action="index.php">
-                                 <i class="bi bi-search circle-icon"></i>
-                                 <input class="form-control form_se" type="search" name="search" placeholder="Search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
-                             </form>
+                             <li class="nav-item">
+                                 <a class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo04" aria-controls="navbarTogglerDemo04" aria-expanded="false" aria-label="Toggle navigation">
+                                     <i class="bi bi-search circle-icon p-2"></i>
+                                 </a>
+                             </li>
                              <li class="nav-item">
                                  <a class="nav-link" aria-current="page" href="<?php echo URLROOT ?>books/bookList">HOME</a>
                              </li>
@@ -65,5 +65,28 @@
                      </div>
                  </div>
              </nav>
-
+             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                 <div class="container px-5">
+                     <div class="col d-flex justify-content-center">
+                         <form action="index.php" method="GET">
+                             <select name="Sort" class=" form-select" id="sort" onchange="javascript:this.form.submit()">
+                                 <option>Sort</option>
+                                 <option value="A-Z">A-Z</option>
+                                 <option value="Z-A">Z-A</option>
+                             </select>
+                         </form>
+                     </div>
+                     <div class="col d-flex justify-content-center">
+                         <a class="fb-ic ml-1 mr-3" role="button"><i class="bi bi-heart text-primary"></i></a>
+                         <span class="counter counter-floating counter-lg-icon">1</span>
+                     </div>
+                     <div class="col d-flex justify-content-center">
+                         <div class="collapse" id="navbarTogglerDemo04">
+                             <form class="search-form d-flex" method="GET" action="index.php">
+                                 <input class="form-control form_se" type="search" name="search" placeholder="Search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
+                             </form>
+                         </div>
+                     </div>
+                 </div>
+             </nav>
          </header>

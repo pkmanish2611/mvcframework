@@ -13,16 +13,7 @@
         unset($_SESSION['bookDeleted']); ?>
 
 
-     <div class="d-flex justify-content-end">
-         <form action="index.php" method="GET" class="d-flex justify-content-end mx-md-3">
-             <select name="Sort" class=" form-select-sm mt-3 w-100 w-md-15  " id="sort" onchange="javascript:this.form.submit()">
-                 <option>Sort</option>
-                 <option value="A-Z">A-Z</option>
-                 <option value="Z-A">Z-A</option>
-             </select>
-         </form>
-     </div>
-     <div class="row px-3 mb-4 justify-content-between">
+     <div class="row px-3 my-3 justify-content-between">
          <div class="line"></div> <small class="or text-center">Book List</small>
          <div class="line"></div>
      </div>
@@ -38,7 +29,7 @@
                      </div>
                      <div class="d-flex justify-content-between px-2 mx-3">
                          <a href="<?php echo URLROOT ?>books/bookDetail/<?php echo $obj->book_id ?>" class="btn btn-success btn-sm px-4 mb-2">View details</a>
-                         <a class="btn btn-success btn-sm mb-2 px-4"><i class="bi bi-bookmarks"></i></a>
+                         <a class="btn btn-success btn-sm mb-2 px-4"><i class="bi bi-heart"></i></a>
                      </div>
                  </div>
              </div>
