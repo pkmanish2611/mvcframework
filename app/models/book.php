@@ -69,13 +69,23 @@ class Book
             } 
         }
     }
-    public function getAllRecord(){
-        $this->db->query('SELECT * FROM books ORDER BY book_id ASC');
+    public function getAllRecord($page, $bookPerPage){
+        $this->db->query('SELECT * FROM books ORDER BY book_id ASC LIMIT :page ,:bookPerPage');
+        $this->db->bind(':page', $page);
+        $this->db->bind(':bookPerPage', $bookPerPage);
         $result = $this->db->resultSet(); 
         if($this->db->rowCount() != 0){
             return $result;
         }else{
             return false;
         }
+    }
+    public function getRowCount(){
+        $this->db->query('SELECT * FROM books'); 
+        if ( $count = $this->db->rowCount()) {
+            return $count;
+        } else {
+            return false;
+        } 
     }
 }

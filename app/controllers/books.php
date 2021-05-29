@@ -93,8 +93,34 @@ class books extends Controller
     }
 
     public function bookList()
-    {
-        $data = $this->bookModel->getAllRecord();
+    {  
+        $data= [
+            'totalPage' =>'',
+            'currentPage'=>'',
+            'books'=>'',
+            'recordNotFound'=>''
+        ];
+        $page = 0;
+        $bookPerPage = 5;
+        $data['currentPage']  = 1; 
+        $url = $this->getUrl();
+        if(isset($url[2])){
+            $page=$url[2];
+            if($page <= 0){
+                $page=0;
+                $data['currentPage'] = 1;
+            }else{
+                $data['currentPage'] = $page;
+                $page--;
+                $page = $page*$bookPerPage; 
+            }
+        }
+        $data['totalPage'] = ceil($this->bookModel->getRowCount()/$bookPerPage); 
+        if($data['books'] = $this->bookModel->getAllRecord($page,$bookPerPage)){
+            $data['recordNotFound'] = false;
+        }else{
+            $data['recordNotFound'] =true;
+        }
         $this->view('books/bookList', $data);
     }
     public function bookDetail()
@@ -176,6 +202,6 @@ class books extends Controller
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
             return $url;
-        }
+        } 
     }
 }

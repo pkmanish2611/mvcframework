@@ -1,7 +1,6 @@
  <?php
     include  ROOT . '/views/includes/header.php';
-    ?>
-
+    ?> 
  <div class="container py-2 myContainer">
 
      <?php if (isset($_SESSION['bookDeleted'])) { ?>
@@ -18,7 +17,8 @@
          <div class="line"></div>
      </div>
      <div class="row row-cols-1 px-5">
-         <?php foreach ($data as $obj) { ?>
+         <?php if ($data['recordNotFound'] == false){
+                foreach ($data['books'] as $obj) { ?>
              <div class="col-sm d-flex justify-content-center">
                  <!--bootstrap card for book listing-->
                  <div class="card text-center mb-2" style="width: 15rem;">
@@ -33,16 +33,24 @@
                      </div>
                  </div>
              </div>
-         <?php } ?>
+         <?php }}else{ ?>
+            No record fount 
+            <?php }?>
      </div>
 
      <div class="d-flex justify-content-end mx-2">
          <nav aria-label="Page navigation example">
              <ul class="pagination pagination-sm pg-blue">
                  <li class="page-item "><a class="page-link" tabindex="-1">&laquo;Prev</a></li>
-                 <li class="page-item"><a class="page-link">1</a></li>
-                 <li class="page-item"><a class="page-link">2</a></li>
-                 <li class="page-item"><a class="page-link">3</a></li>
+                 <?php
+                    for ($i = 1; $i <= $data['totalPage']; $i++) {
+                        $class = '';
+                        if ($data['currentPage'] == $i) { ?>
+                         <li class="page-item active"><a class="page-link" href="javascript:void(0)"><?php echo $i ?></a></li>
+                     <?php } else { ?>
+                         <li class="page-item"><a class="page-link" href="<?php echo URLROOT ?>books/bookList/<?php echo $i ?>"><?php echo $i ?></a></li>
+                 <?php }
+                    } ?>
                  <li class="page-item "><a class="page-link">Next&raquo;</a></li>
              </ul>
          </nav>
