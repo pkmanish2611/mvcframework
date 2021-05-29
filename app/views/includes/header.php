@@ -65,28 +65,30 @@
                      </div>
                  </div>
              </nav>
-             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                 <div class="container px-5">
-                     <div class="col d-flex justify-content-center">
-                         <form action="index.php" method="GET">
-                             <select name="Sort" class=" form-select" id="sort" onchange="javascript:this.form.submit()">
-                                 <option>Sort</option>
-                                 <option value="A-Z">A-Z</option>
-                                 <option value="Z-A">Z-A</option>
-                             </select>
-                         </form>
-                     </div>
-                     <div class="col d-flex justify-content-center">
-                         <a class="fb-ic ml-1 mr-3" role="button"><i class="bi bi-heart text-primary"></i></a>
-                         <span class="counter counter-floating counter-lg-icon">1</span>
-                     </div>
-                     <div class="col d-flex justify-content-center">
-                         <div class="collapse" id="navbarTogglerDemo04">
-                             <form class="search-form d-flex" method="GET" action="index.php">
-                                 <input class="form-control form_se" type="search" name="search" placeholder="Search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
+             <?php if (isset($_SESSION['user_id'])) { ?>
+                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                     <div class="container px-5">
+                         <div class="col d-flex justify-content-center">
+                             <form action="index.php" method="GET">
+                                 <select name="Sort" class=" form-select" id="sort" onchange="javascript:this.form.submit()">
+                                     <option>Sort</option>
+                                     <option value="A-Z">A-Z</option>
+                                     <option value="Z-A">Z-A</option>
+                                 </select>
                              </form>
                          </div>
+                         <div class="col d-flex justify-content-center">
+                             <a class="fb-ic ml-1 mr-3" role="button"><i class="bi bi-heart text-primary"></i></a>
+                             <span class="counter counter-floating counter-lg-icon">1</span>
+                         </div>
+                         <div class="col d-flex justify-content-center">
+                             <div class="collapse" id="navbarTogglerDemo04">
+                                 <form class="search-form d-flex" method="GET" action="index.php">
+                                     <input class="form-control form_se" type="search" name="search" placeholder="Search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
+                                 </form>
+                             </div>
+                         </div>
                      </div>
-                 </div>
-             </nav>
+                 </nav>
+             <?php } ?>
          </header>

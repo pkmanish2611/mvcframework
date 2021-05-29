@@ -4,16 +4,16 @@ class books extends Controller
     public function __construct()
     {
         $this->bookModel = $this->model('Book');
-    } 
+    }
     public function addBook()
     {
         $data = [
             'page_title' => '',
             'bookName' => '',
-            'bookAuthor'=>'',
-            'bookDescription'=>'',
-            'bookImage' =>'',
-            'bookCount'=> '', 
+            'bookAuthor' => '',
+            'bookDescription' => '',
+            'bookImage' => '',
+            'bookCount' => '',
             'bookNameError' => '',
             'bookAuthorError' => '',
             'bookDescriptionError' => '',
@@ -21,13 +21,13 @@ class books extends Controller
             'bookCountError' => '',
             'bookAdded' => '',
             'bookAddedError' => '',
-            'bookId' => '' 
+            'bookId' => ''
 
         ];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [ 
+            $data = [
                 'bookName' => trim($_POST['bookName']),
                 'bookAuthor' => trim($_POST['bookAuthor']),
                 'bookDescription' => nl2br(trim($_POST['bookDescription'])),
@@ -38,14 +38,14 @@ class books extends Controller
                 'bookDescriptionError' => '',
                 'bookImageError' => '',
                 'bookCountError' => '',
-                'bookAdded'=>'',
-                'bookAddedError'=> '',
-                'bookId' => '' 
+                'bookAdded' => '',
+                'bookAddedError' => '',
+                'bookId' => ''
 
             ];
             if (empty($data['bookName'])) {
                 $data['bookNameError'] = 'Book name is required.';
-            }  
+            }
             if (empty($data['bookAuthor'])) {
                 $data['bookAuthorError'] = 'Author name is required.';
             }
@@ -56,21 +56,21 @@ class books extends Controller
                 move_uploaded_file($_FILES['bookImage']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . "/MVCframework/public/assets/img/uploads/" . $_FILES['bookImage']['name']);
                 $data['bookImage'] = $_FILES['bookImage']['name'];
             } else {
-                $data['bookImageError'] = "Please upload image in jpg/png format and max 1 mb"; 
+                $data['bookImageError'] = "Please upload image in jpg/png format and max 1 mb";
             }
             if ($data['bookCount'] < 0) {
                 $data['bookCountError'] = 'Book count should be greater than "0".';
             }
-            if(empty($data['bookNameError']) && empty($data['bookAuthorError']) && empty($data['bookDescriptionError']) && empty($data['bookImageError']) && empty($data['bookCountError'])){
-                $id = $this->bookModel->addBook($data); 
-                if($id){ 
+            if (empty($data['bookNameError']) && empty($data['bookAuthorError']) && empty($data['bookDescriptionError']) && empty($data['bookImageError']) && empty($data['bookCountError'])) {
+                $id = $this->bookModel->addBook($data);
+                if ($id) {
                     $data['bookAdded'] = true;
-                    $data['bookId']= $id;
-                }else{
+                    $data['bookId'] = $id;
+                } else {
                     $data['bookAddedError'] = true;
                 }
             }
-        }else{
+        } else {
             $data = [
                 'page_title' => '',
                 'bookName' => '',
@@ -85,16 +85,16 @@ class books extends Controller
                 'bookCountError' => '',
                 'bookAdded' => '',
                 'bookAddedError' => '',
-                'bookId'=>'' 
-            ]; 
+                'bookId' => ''
+            ];
         }
 
         $this->view('books/addBook', $data);
     }
 
     public function bookList()
-    { 
-        $data = $this->bookModel->getAllRecord() ; 
+    {
+        $data = $this->bookModel->getAllRecord();
         $this->view('books/bookList', $data);
     }
     public function bookDetail()
@@ -104,14 +104,14 @@ class books extends Controller
             'bookId' => '',
             'bookName' =>  '',
             'bookAuthor' =>  '',
-            'bookDescription' =>'', 
+            'bookDescription' => '',
             'bookImage' => '',
             'bookCount' =>  '',
-            'modifiedDate' => '' 
+            'modifiedDate' => ''
         ];
-        $url = $this->getUrl(); 
-        $id= $url[2]; 
-        if($row = $this->bookModel->bookDetail($id)){
+        $url = $this->getUrl();
+        $id = $url[2];
+        if ($row = $this->bookModel->bookDetail($id)) {
             $data = [
                 'page_title' => 'bookDetail',
                 'bookId' => $id,
@@ -121,41 +121,53 @@ class books extends Controller
                 'bookImage' => $row->book_image,
                 'bookCount' => $row->total_count,
                 'modifiedDate' => $row->modified_date
-            ]; 
-        } 
+            ];
+        }
         $this->view('books/bookDetail', $data);
     }
     public function editBook()
     {
+        $data = [
+            'bookName' => '',
+            'bookAuthor' => '',
+            'bookDescription' => '',
+            'bookImage' => '',
+            'bookCount' => ''
+        ];
         $url = $this->getUrl();
-        $id = $url[2];
-         $data = [ 
+        $id = $url[2]; 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            print_r($id);
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
                 'bookName' => trim($_POST['bookName']),
                 'bookAuthor' => trim($_POST['bookAuthor']),
-                'bookDescription' => nl2br(trim($_POST['bookDescription'])),
-                'bookImage' => '',
-                'bookCount' => trim($_POST['bookCount']) 
-         ];
-        if (($_FILES['bookImage']['size'] <= (1024 * 1024)) and (($_FILES['bookImage']['type'] == "image/jpeg") or ($_FILES['bookImage']['type'] == "image/png"))) {
-            move_uploaded_file($_FILES['bookImage']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . "/MVCframework/public/assets/img/uploads/" . $_FILES['bookImage']['name']);
-            $data['bookImage'] = $_FILES['bookImage']['name'];
+                'bookDescription' => nl2br(trim($_POST['bookDescription'])), 
+                'bookCount' => trim($_POST['bookCount'])
+            ];
+            if (($_FILES['bookImage']['size'] <= (1024 * 1024)) and (($_FILES['bookImage']['type'] == "image/jpeg") or ($_FILES['bookImage']['type'] == "image/png"))) {
+                move_uploaded_file($_FILES['bookImage']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . "/MVCframework/public/assets/img/uploads/" . $_FILES['bookImage']['name']);
+                $data['bookImage'] = $_FILES['bookImage']['name'];
+            }
+            if ($this->bookModel->editBook($data, $id)) {
+                $_SESSION['bookEdited'] = "Book edited successfully";
+                header('location:' . URLROOT . 'books/bookDetail/'.$id); 
+            } else {
+                $_SESSION['bookEditedError'] = "Book not edited successfully";
+                print_r($id);
+            }
         }
-        if ($this->bookModel->bookDelete($id,$data)) {
-            $_SESSION['bookEdited'] = "Book edited successfully";  
-        } else {
-            $_SESSION['bookEditedError'] = "Book not edited successfully";
-        } 
     }
-    public function bookDelete() 
-    { 
+    public function bookDelete()
+    {
         $url = $this->getUrl();
         $id = $url[2];
-        if($this->bookModel->bookDelete($id)){ 
+        if ($this->bookModel->bookDelete($id)) {
             $_SESSION['bookDeleted'] = "Book deleted successfully";
             header('location:' . URLROOT . 'books/bookList');
-        }else{
+        } else {
             $_SESSION['bookDeletedError'] = "Book not deleted successfully";
-        } 
+        }
     }
     public function getUrl()
     {
@@ -164,6 +176,6 @@ class books extends Controller
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
             return $url;
-        } 
+        }
     }
 }

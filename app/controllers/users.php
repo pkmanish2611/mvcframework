@@ -288,6 +288,9 @@ class Users extends Controller
             ];
         }
         $this->view('users/passwordReset', $data);
+    }public function profile(){
+        $data['title']='profile';
+        $this->view('users/profile', $data);
     }
 
     public function createUserSession($user)

@@ -3,6 +3,13 @@
     ?>
 
  <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+     <?php if (isset($_SESSION['bookEdited'])) { ?>
+         <div class="alert alert-success text-center alert-dismissible fade show px-5" role="alert">
+             <li><?php echo $_SESSION['bookEdited'] ?><i class="bi bi-emoji-smile-fill"></i></li>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+     <?php }
+        unset($_SESSION['bookEdited']); ?>
 
      <div class="card card0 border-0 ">
          <div class="row px-3 mb-8 justify-content-between">
@@ -80,7 +87,7 @@
                      </div>
                  </div>
                  <div class="col-lg-6 px-0">
-                     <form id="addBook-form" method="POST" action="<?php echo URLROOT ?>books/editBook" enctype="multipart/form-data">
+                     <form form id="editBook-form" method="POST" action="<?php echo URLROOT ?>books/editBook/<?php echo $data['bookId'] ?>" enctype="multipart/form-data">
                          <div class="card2 card border-0 px-4 py-5">
                              <div class="row px-3">
                                  <label class="mb-1">
@@ -115,7 +122,7 @@
                                  </div>
                              </div>
                              <div class="col mb-4 px-3">
-                                 <a href="<?php echo  URLROOT ?>books/editBook/<?php echo $data['bookId'] ?>" type="submit" id="submit" value="submit" class="btn btn-blue text-center ">Update</a>
+                                 <button type="submit" name="editBook" id="submit" value="submit" class="btn btn-blue text-center ">Update</button>
                                  <a href="#" class="modal-close btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
                              </div>
                          </div>

@@ -41,8 +41,33 @@ class Book
             return false;
         } 
     }
-    public function editBook(){
-        
+    public function editBook($data,$id){
+        if(isset($data['bookImage'])){
+            $this->db->query('UPDATE books SET book_name=:bookName,book_author=:bookAuthor,book_description=:bookDescription,book_image=:bookImage,total_count=:bookCount WHERE book_id = :id');
+            $this->db->bind(':bookName', $data['bookName']);
+            $this->db->bind(':bookAuthor', $data['bookAuthor']);
+            $this->db->bind(':bookDescription', $data['bookDescription']);
+            $this->db->bind(':bookImage', $data['bookImage']);
+            $this->db->bind(':bookCount', $data['bookCount']);
+            $this->db->bind(':id', $id);
+            if ($this->db->execute()) {
+               return true;
+            } else {
+                return false;
+            }
+        }else{
+            $this->db->query('UPDATE books SET book_name=:bookName,book_author=:bookAuthor,book_description=:bookDescription,total_count=:bookCount WHERE book_id = :id');
+            $this->db->bind(':bookName', $data['bookName']);
+            $this->db->bind(':bookAuthor', $data['bookAuthor']);
+            $this->db->bind(':bookDescription', $data['bookDescription']); 
+            $this->db->bind(':bookCount', $data['bookCount']);
+            $this->db->bind(':id', $id);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            } 
+        }
     }
     public function getAllRecord(){
         $this->db->query('SELECT * FROM books ORDER BY book_id ASC');
