@@ -80,6 +80,20 @@ class Book
             return false;
         }
     }
+    public function getSearchData(){
+
+    }
+    public function getSortedData($a, $page, $bookPerPage){
+        $this->db->query('SELECT * FROM books ORDER BY  '. $a .' LIMIT :page ,:bookPerPage'); 
+        $this->db->bind(':page', $page);
+        $this->db->bind(':bookPerPage', $bookPerPage); 
+        $result = $this->db->resultSet();
+        if ($this->db->rowCount() != 0) {
+            return $result;
+        } else {
+            return false;
+        } 
+    }
     public function getRowCount(){
         $this->db->query('SELECT * FROM books'); 
         if ( $count = $this->db->rowCount()) {
@@ -87,5 +101,5 @@ class Book
         } else {
             return false;
         } 
-    }
+    } 
 }

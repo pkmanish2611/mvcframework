@@ -93,36 +93,55 @@ class books extends Controller
     }
 
     public function bookList()
-    {  
-        $data= [
-            'totalPage' =>'',
-            'currentPage'=>'',
-            'books'=>'',
-            'recordNotFound'=>''
+    {
+        $data = [
+            'totalPage' => '',
+            'currentPage' => '',
+            'books' => '',
+            'recordNotFound' => ''
         ];
         $page = 0;
         $bookPerPage = 5;
         $data['currentPage']  = 1; 
         $url = $this->getUrl();
-        if(isset($url[2])){
-            $page=$url[2];
-            if($page <= 0){
-                $page=0;
+        if (isset($url[2])) {
+            $page = $url[2];
+            if ($page <= 0) {
+                $page = 0;
                 $data['currentPage'] = 1;
-            }else{
+            } else {
                 $data['currentPage'] = $page;
                 $page--;
-                $page = $page*$bookPerPage; 
+                $page = $page * $bookPerPage;
             }
-        }
-        $data['totalPage'] = ceil($this->bookModel->getRowCount()/$bookPerPage); 
-        if($data['books'] = $this->bookModel->getAllRecord($page,$bookPerPage)){
-            $data['recordNotFound'] = false;
+        } 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sort'])) { 
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            if ($_POST['sort'] == 'A-Z') {
+                $a = 'book_name';
+            } elseif ($_POST['sort'] == 'Z-A') {
+                $a = 'book_name DESC';
+            } else {
+                $a = 'book_id';
+            }
+            $data['totalPage'] = ceil($this->bookModel->getRowCount() / $bookPerPage);
+            if ($data['books'] = $this->bookModel->getSortedData($a, $page, $bookPerPage)) {
+                $data['recordNotFound'] = false;
+            } else {
+                $data['recordNotFound'] = true;
+            }
         }else{
-            $data['recordNotFound'] =true;
+            $a = 'book_id'; 
         }
+        $data['totalPage'] = ceil($this->bookModel->getRowCount() / $bookPerPage);
+        if ($data['books'] = $this->bookModel->getSortedData($a, $page, $bookPerPage)) {
+            $data['recordNotFound'] = false;
+        } else {
+            $data['recordNotFound'] = true;
+        }  
         $this->view('books/bookList', $data);
     }
+
     public function bookDetail()
     {
         $data = [
@@ -161,14 +180,14 @@ class books extends Controller
             'bookCount' => ''
         ];
         $url = $this->getUrl();
-        $id = $url[2]; 
+        $id = $url[2];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             print_r($id);
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 'bookName' => trim($_POST['bookName']),
                 'bookAuthor' => trim($_POST['bookAuthor']),
-                'bookDescription' => nl2br(trim($_POST['bookDescription'])), 
+                'bookDescription' => nl2br(trim($_POST['bookDescription'])),
                 'bookCount' => trim($_POST['bookCount'])
             ];
             if (($_FILES['bookImage']['size'] <= (1024 * 1024)) and (($_FILES['bookImage']['type'] == "image/jpeg") or ($_FILES['bookImage']['type'] == "image/png"))) {
@@ -177,7 +196,7 @@ class books extends Controller
             }
             if ($this->bookModel->editBook($data, $id)) {
                 $_SESSION['bookEdited'] = "Book edited successfully";
-                header('location:' . URLROOT . 'books/bookDetail/'.$id); 
+                header('location:' . URLROOT . 'books/bookDetail/' . $id);
             } else {
                 $_SESSION['bookEditedError'] = "Book not edited successfully";
                 print_r($id);
@@ -194,7 +213,7 @@ class books extends Controller
         } else {
             $_SESSION['bookDeletedError'] = "Book not deleted successfully";
         }
-    }
+    } 
     public function getUrl()
     {
         if (isset($_GET['url'])) {
@@ -202,6 +221,6 @@ class books extends Controller
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
             return $url;
-        } 
+        }
     }
 }

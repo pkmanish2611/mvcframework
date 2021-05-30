@@ -69,11 +69,16 @@
                  <nav class="navbar navbar-expand-lg navbar-light bg-light">
                      <div class="container px-5">
                          <div class="col d-flex justify-content-center">
-                             <form action="index.php" method="GET">
-                                 <select name="Sort" class=" form-select" id="sort" onchange="javascript:this.form.submit()">
+                             <form action="<?php echo URLROOT ?>books/bookList" method="POST">
+                                 <?php if (isset($_POST['sort'])) {
+                                        $sort = $_POST['sort'];
+                                    } else {
+                                        $sort = " ";
+                                    } ?>
+                                 <select name="sort" class="form-select" id="sort" onchange="javascript:this.form.submit()">
                                      <option>Sort</option>
-                                     <option value="A-Z">A-Z</option>
-                                     <option value="Z-A">Z-A</option>
+                                     <option value="A-Z" <?php echo $sort == 'A-Z' ? "selected" : "" ?> id="1">A-Z</option>
+                                     <option value="Z-A" <?php echo $sort == 'Z-A' ? "selected" : "" ?> id="2">Z-A</option>
                                  </select>
                              </form>
                          </div>

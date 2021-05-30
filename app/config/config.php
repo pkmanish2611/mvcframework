@@ -8,7 +8,7 @@
     //Sitename
     define('SITENAME', 'Bookshelf');
 
-    define('PROTOCOL','http');
+    define('PROTOCOL','https');
 
     $path = str_replace("\\", "/", ($_SERVER["SERVER_NAME"] == "localhost") ? "http://localhost/mvcframework/public/assets/" : "http://your_site_name.com/");
     $path = str_replace($_SERVER['DOCUMENT_ROOT'], "", $path);  
