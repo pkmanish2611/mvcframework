@@ -83,7 +83,7 @@
                              </form>
                          </div>
                          <div class="col d-flex justify-content-center">
-                             <a class="fb-ic ml-1 mr-3" role="button"><i class="bi bi-heart text-primary"></i></a>
+                             <a href="<?php echo URLROOT ?>actions/header" class="fb-ic ml-1 mr-3" role="button"><i class="bi bi-heart text-primary"></i></a>
                              <span class="counter counter-floating counter-lg-icon">1</span>
                          </div>
                          <div class="col d-flex justify-content-center">

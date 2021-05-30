@@ -3,13 +3,37 @@
     ?>
 
  <div class="container  px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-     <?php if (isset($_SESSION['bookEdited'])) { ?>
-         <div class="alert alert-success text-center alert-dismissible fade show px-5" role="alert">
-             <li><?php echo $_SESSION['bookEdited'] ?><i class="bi bi-emoji-smile-fill"></i></li>
-             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-         </div>
-     <?php }
-        unset($_SESSION['bookEdited']); ?>
+     <div class="my-0 py-0 d-flex justify-content-center">
+         <?php if (isset($_SESSION['bookEdited'])) { ?>
+             <div class="alert alert-success text-center alert-dismissible fade show col-md-3" role="alert">
+                 <strong>Success!</strong> <?php echo $_SESSION['bookEdited'] ?><i class="bi bi-emoji-smile-fill"></i>
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+         <?php }
+            unset($_SESSION['bookEdited']);
+            if (isset($_SESSION['wishlistSuccess']) or isset($_SESSION['wishlistError']) or isset($_SESSION['bookMarked']) or isset($_SESSION['bookMarkedSuccess'])) { ?>
+             <div class="alert alert-success text-center alert-dismissible fade show col-md-4" id="alert" role="alert">
+                 <?php if (isset($_SESSION['wishlistSuccess'])) { ?>
+                     <strong>Success!</strong> <?php echo $_SESSION['wishlistSuccess'] ?><i class="bi bi-bookmark-heart"></i>
+                 <?php }
+                    if (isset($_SESSION['bookMarkedSuccess'])) { ?>
+                     <strong>Success!</strong> <?php echo $_SESSION['bookMarkedSuccess'] ?><i class="bi bi-bookmark-heart"></i>
+                 <?php }
+                    if (isset($_SESSION['bookMarked'])) { ?>
+                     <strong>Oppss!</strong> <?php echo $_SESSION['bookMarked'] ?><i class="bi bi-exclamation-octagon-fill"></i>
+                 <?php }
+                    if (isset($_SESSION['wishlistError'])) { ?>
+                     <strong>Failed!</strong><?php echo $_SESSION['wishlistError'] ?><i class="bi bi-exclamation-octagon-fill"></i>
+                 <?php } ?>
+             </div>
+         <?php }
+            unset($_SESSION['wishlistSuccess']);
+            unset($_SESSION['wishlistError']);
+            unset($_SESSION['bookMarkedSuccess']);
+            unset($_SESSION['bookMarked']);
+
+            ?>
+     </div> 
 
      <div class="card card0 border-0 ">
          <div class="row px-3 mb-8 justify-content-between">
@@ -22,8 +46,8 @@
                      <div class="row px-3 justify-content-center mt-4 mb-5 ">
                          <img class="img" style=" height: 380px;" src="<?php echo ASSETS  ?>img/uploads/<?php echo $data['bookImage'] ?>">
                          <div class="d-flex px-0 py-1 justify-content-between">
-                             <a class="btn text-success">Mark as read<i class="bi bi-patch-check"></i></a>
-                             <a class="btn text-success"> Add to wishlist<i class="bi bi-heart"></i></a>
+                             <a href="<?php echo URLROOT ?>actions/markRead/bookDetail/<?php echo $data['bookId'] ?>" class=" btn text-success">Mark as read<i class="bi bi-patch-check"></i></a>
+                             <a href="<?php echo URLROOT ?>actions/addWishList/bookDetail/<?php echo $data['bookId'] ?>" class="btn text-success"> Add to wishlist<i class="bi bi-heart"></i></a>
                          </div>
                          <div class="d-flex  justify-content-between">
                              <button class="btn btn-outline-success btn-sm px-4">Borrow</button>

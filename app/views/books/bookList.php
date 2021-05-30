@@ -42,7 +42,7 @@
                          </div>
                          <div class="d-flex justify-content-between px-2 mx-3">
                              <a href="<?php echo URLROOT ?>books/bookDetail/<?php echo $obj->book_id ?>" class="btn btn-success btn-sm px-4 mb-2">View details</a>
-                             <a href="<?php echo URLROOT ?>actions/addWishList/<?php echo $obj->book_id ?>" class="btn btn-success btn-sm mb-2 px-4"><i class="bi bi-heart"></i></a>
+                             <a href="<?php echo URLROOT ?>actions/addWishList/bookList/<?php echo $obj->book_id ?>" class="btn btn-success btn-sm mb-2 px-4"><i class="bi bi-heart"></i></a>
                          </div>
                      </div>
                  </div>
